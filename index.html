@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>calendar</title>
+        <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+		<style type="text/css">
+        section{ margin: 35px auto; width: 600px; height: auto;}
+            table{
+                background-color: antiquewhite;
+                width: 600px; height: 650px;
+                border: 0;
+                border-collapse: collapse;
+                font-size: 14px;
+                font-family: "나눔스퀘어 네오 OTF Regular", sans-serif; 
+                text-align: center;
+                margin-top: 15px;
+                font-weight: bold;
+                margin-bottom: 50px;
+            }
+            th{background-color: aqua; font-weight: bold;}
+            select{
+                font-size: 25px; font-weight: bold;
+                font-family: "나눔스퀘어 네오 OTF Regular", sans-serif; 
+                text-align: right; border: none;  
+            }
+            .clock{margin-left: 535px;}
+        </style>
+	</head>
+    <body>
+     <section>
+         <form name="form1" action="index.html">
+            <select name="yselect" id="y" onchange="chk_calender()">
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022" selected>2022</option>
+                <option value="2023">2023</option>
+                <option value="2023">2024</option>
+                <option value="2023">2025</option>
+                <option value="2023">2026</option>
+                <option value="2023">2027</option>
+            </select>
+            <select name="mselect" id="m" onchange="chk_calender()">
+                <option value="0">월 선택</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12" selected>12</option>
+            </select>
+            <div class="clock"></div>
+        </form>
+        <script>/* calendar table script */
+            const chk_calender=()=>{
+                if(document.form1.mselect.value==0){
+                    return;
+                }
+                document.form1.submit();
+            }
+
+            let now=new Date();
+            let year,month;
+            if( location.search){
+                let str0=location.search.split("&")[0];
+                let str1=location.search.split("&")[1];
+                year=str0.split("=")[1];
+                month=str1.split("=")[1];
+            }else{
+
+             year=now.getFullYear();
+             month=now.getMonth()+1;
+            }
+            // let date=now.getDate();
+            // let day=now.getDay();
+
+            let m2;
+            if((year%4==0 && year%100!=0) || (year%400==0)){
+                m2=29;
+            }else{
+                m2=28;
+            }
+            let firstDate=new Date(year,month-1,1);
+            let firstDay=firstDate.getDay();
+
+            const mon_len=[31,m2,31,30,31,30,31,31,30,31,30,31];
+            let col=0;
+            document.write("<table width='400' height='250' border='0' style='border-collapse:collapse'>");
+            document.write("<tr style='background:#fff; font-weight:bold'><th><span style='color: #f60'>Sun</span></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></th>");
+            document.write("<tr>");    
+            for(let i=0; i<firstDay; i++){
+                document.write("<td>&nbsp;</td>");
+                col++;
+            }
+            for(let j=1; j<=mon_len[month-1]; j++){
+            if(col%7==0){
+                document.write("<tr>");
+            }
+            if(col%7==0){
+                document.write("<td style='cusor:default'><span style='color:#f60'>"+j+"</span></td>");
+            
+            }else if(col%7==6){
+            document.write("<td style='cursor:default'><span style='color:blue'>"+j+"</span></td>");
+        
+            }else{
+                document.write("<td style='cusor:default'>"+j+"</td>");
+            }
+            col++;
+        }
+        let today = new Date();
+        let hours = today.getHours();
+        let minutes = today.getMinutes();
+
+        $('.clock').text(hours + ' : ' + minutes + ' ');
+
+
+
+        document.write("</table>");
+
+    
+            
+            
+        </script>
+        <br>
+        <div class="day"></div>
+        <script>
+            /* location.search :URL뒤 ? 이후 내용파악 후 값 반환 */
+            if(location.search){
+            for(let k=0; k<document.form1.yselect.length;k++){
+                    if(document.form1.yselect.options[k].value==year){
+                        document.form1.yselect.options[k].selected=true;
+                    }
+                }
+                for(let n=0; n<document.form1.mselect.length;n++){
+                    if(document.form1.mselect.options[n].value==month){
+                        document.form1.mselect.options[n].selected=true;
+                    }
+                }
+            }
+
+
+            const date=new Date("july 20, 1982 20:17:49"); 
+			console.log( Date.now(), date.getTime());
+			const nw=new Date();
+			const yr=now.getFullYear();
+			const targetDate=new Date(year, 12, 21); 
+			let calcTime=targetDate.getTime()-now.getTime();
+			let d_day=Math.ceil(calcTime/(1000*60*60*24)); 
+
+            document.write("<d_day width='300' height='100' style='color:#5f5f5f'>");
+			document.write(`설날까지 ${d_day}일 남았습니다.`);
+            
+        const tday = new Date();
+        const day = today.getDate();
+        const getDayDate = tday.getDay();
+        const aaa = ['월요일', '화요일', '수요일', '목요일','금요일','토요일','일요일'];
+        
+        $('.day').text(` ${day}. ${aaa[getDayDate -1]} `)
+        </script>
+        </section>
+    </body>
+</html>
